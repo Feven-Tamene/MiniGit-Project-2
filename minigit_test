@@ -1,0 +1,23 @@
+#!/bin/bash
+# MiniGit Testing Script - Eden Yirefu
+
+# Step 1: Create test files
+echo "Line 1: Hello World" > sample_file1.txt
+echo "Line 2: This is the first version." >> sample_file1.txt
+echo "Line 3: End of file." >> sample_file1.txt
+
+echo "Line 1: Hello World" > sample_file2.txt
+echo "Line 2: This is the second version." >> sample_file2.txt
+echo "Line 3: Added a new line here." >> sample_file2.txt
+echo "Line 4: End of file." >> sample_file2.txt
+
+# Step 2: Run MiniGit commands
+./minigit add sample_file1.txt
+./minigit commit -m "First commit with sample_file1"
+
+./minigit add sample_file2.txt
+./minigit commit -m "Second commit with sample_file2"
+
+echo ""
+echo "📌 Please copy the two commit hashes shown above."
+echo "Then run: ./minigit diff <commit1> <commit2>"
