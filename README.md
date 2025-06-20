@@ -1,12 +1,37 @@
-# MiniGit-Project-2
-dsa 
+# MiniGit Diff Viewer – By Eden Yirefu
 
-Group members
-Naomi Tilahun UGR/8935/16,
-Feven Tamene UGR/9745/16,
-Eden Yirefu UGR/2749/16,
-Eyerusalem Gebrat UGR/9470/16,
-Rekik Ashenafi UGR/0325/16
+## My Role in the Project
+I worked on the optional `diff <commit1> <commit2>` feature, testing, documentation, and demo presentation.
 
+## What I Implemented
+- A simple diff function that compares two commits and shows which lines are added or removed.
+- It reads the stored commit files from `.minigit/objects/` and prints the line-by-line difference.
 
+## Technologies Used
+- C++
+- File I/O
+- Vectors and strings
+- Basic hashing
 
+## Challenges I Faced
+- Understanding how to access commits from the `.minigit` system.
+- Making the diff easy to read.
+- Testing real examples with added, removed, or modified lines.
+
+## Future Improvements
+- Highlight word-level changes.
+- Add color to make differences clearer.
+- Improve formatting of diff output.
+
+## How to Use My Feature
+```
+./minigit diff <commitHash1> <commitHash2>
+```
+Example:
+```
+./minigit diff 24af3d 7bc4e1
+```
+```
+- Old line from commit1
++ New line from commit2
+```

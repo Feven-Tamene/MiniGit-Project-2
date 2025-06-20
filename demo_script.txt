@@ -1,0 +1,17 @@
+Hello, I am Eden Yirefu and this is my demo for the MiniGit project.
+
+My role in the project was to implement the optional diff feature.
+
+The command I created is:
+    diff <commit1> <commit2>
+
+It compares the content of two commit files and shows the line-by-line difference.
+
+Let me show you an example...
+
+[Screen recording showing terminal commands]
+
+You can see that lines that were removed are marked with "-",
+and new lines are marked with "+".
+
+Thank you for watching!

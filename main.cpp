@@ -3,11 +3,13 @@
 #include <sstream>
 #include <unordered_map>
 #include <filesystem>
+#include <vector>
 #include <chrono>
 #include <ctime>
 
 namespace fs = std::filesystem;
 
+// --- Hash Function for File Content ---
 std::string hashContent(const std::string& content) {
     std::hash<std::string> hasher;
     size_t hash = hasher(content);
@@ -16,6 +18,39 @@ std::string hashContent(const std::string& content) {
     return ss.str();
 }
 
+// --- File I/O: Read Lines ---
+std::vector<std::string> readLines(const std::string& filepath) {
+    std::ifstream file(filepath);
+    std::vector<std::string> lines;
+    std::string line;
+    while (getline(file, line)) {
+        lines.push_back(line);
+    }
+    return lines;
+}
+
+// --- Diff Function ---
+void diffCommits(const std::string& commit1, const std::string& commit2) {
+    std::string path1 = ".minigit/objects/" + commit1;
+    std::string path2 = ".minigit/objects/" + commit2;
+
+    std::vector<std::string> lines1 = readLines(path1);
+    std::vector<std::string> lines2 = readLines(path2);
+
+    size_t maxLines = std::max(lines1.size(), lines2.size());
+
+    for (size_t i = 0; i < maxLines; ++i) {
+        std::string line1 = (i < lines1.size()) ? lines1[i] : "";
+        std::string line2 = (i < lines2.size()) ? lines2[i] : "";
+
+        if (line1 != line2) {
+            if (!line1.empty()) std::cout << "- " << line1 << "\n";
+            if (!line2.empty()) std::cout << "+ " << line2 << "\n";
+        }
+    }
+}
+
+// --- Helper Functions ---
 void ensureRepo() {
     fs::create_directories(".minigit/objects");
     std::ofstream index(".minigit/index", std::ios::app);
@@ -101,13 +136,16 @@ void commit(const std::string& message) {
     std::cout << "Committed as " << commitHash << "\n";
 }
 
+// --- Main CLI Handler ---
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::cerr << "Usage: add <file> | commit -m <message>\n";
+        std::cerr << "Usage:\n";
+        std::cerr << "  add <file>\n  commit -m <message>\n  diff <commit1> <commit2>\n";
         return 1;
     }
 
     std::string cmd = argv[1];
+
     if (cmd == "add" && argc == 3) {
         add(argv[2]);
     } else if (cmd == "commit" && argc >= 4 && std::string(argv[2]) == "-m") {
@@ -115,6 +153,8 @@ int main(int argc, char* argv[]) {
         for (int i = 3; i < argc; ++i)
             msg << argv[i] << " ";
         commit(msg.str());
+    } else if (cmd == "diff" && argc == 4) {
+        diffCommits(argv[2], argv[3]);
     } else {
         std::cerr << "Invalid command.\n";
     }
